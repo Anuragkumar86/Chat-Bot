@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - main  # Change this if your branch name is different
+      - main
 
 jobs:
   build:
@@ -17,10 +17,11 @@ jobs:
         run: |
           echo "console.log('API Key Loaded');" > apiKey.js
           echo "const API_KEY = '${{ secrets.API_KEY }}';" >> apiKey.js
-          cat apiKey.js  # Print to verify
+          ls -la   # Check if the file exists
+          cat apiKey.js  # Print file contents for debugging
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: . # Deploy everything including the `apiKey.js`
+          folder: . # Deploy everything
