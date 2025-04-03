@@ -1,0 +1,26 @@
+name: Deploy Frontend with Hidden API Key
+
+on: 
+  push:
+    branches:
+      - main  # Change this if your main branch has a different name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create .env file with API Key
+        run: echo "REACT_APP_API_KEY=${{ secrets.API_KEY }}" > .env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
