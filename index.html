@@ -6,6 +6,7 @@
     <title>WSP ChatBot</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="apiKey.js"></script> <!-- Include the secure API Key -->
     <style>
         body {
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
@@ -80,10 +81,15 @@
             chatBox.scrollTop = chatBox.scrollHeight;
             
             try {
+                // Ensure API_KEY is loaded
+                if (typeof API_KEY === "undefined" || !API_KEY) {
+                    throw new Error("API Key is missing. Ensure it is set correctly in apiKey.js.");
+                }
+
                 const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
                     method: 'POST',
                     headers: {
-                        Authorization: 'Bearer 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',
+                        Authorization: `Bearer ${API_KEY}`,
                         'HTTP-Referer': 'https://www.sitename.com',
                         'X-Title': 'SiteName',
                         'Content-Type': 'application/json',

@@ -1,9 +1,9 @@
-name: Deploy Frontend with Hidden API Key
+name: Deploy Frontend
 
-on: 
+on:
   push:
     branches:
-      - main  # Change this if your main branch has a different name
+      - main  # Change this if your branch name is different
 
 jobs:
   build:
@@ -11,16 +11,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Create .env file with API Key
-        run: echo "REACT_APP_API_KEY=${{ secrets.API_KEY }}" > .env
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
+      - name: Create API Key JS File
+        run: echo "const API_KEY = '${{ secrets.API_KEY }}';" > apiKey.js
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: . # Deploy everything including the `apiKey.js`
